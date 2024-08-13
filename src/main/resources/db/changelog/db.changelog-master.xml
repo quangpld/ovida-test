@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="quang">
+        <createTable tableName="role">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="permission">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="roles_permissions">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="role_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_roles_permissions_role" references="role(id)"/>
+            </column>
+            <column name="permission_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_roles_permissions_permission" references="permission(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="usr">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="role_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_usr_role" references="role(id)"/>
+            </column>
+            <column name="password" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Data init -->
+        <insert tableName="role">
+            <column name="name" value="ADMIN"/>
+        </insert>
+        <insert tableName="role">
+            <column name="name" value="MEMBER"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="name" value="GET_CURRENT_USER_INFO"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="name" value="LIST_USERS"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="name" value="GRANT_PERMISSION"/>
+        </insert>
+        <insert tableName="permission">
+            <column name="name" value="REVOKE_PERMISSION"/>
+        </insert>
+        <insert tableName="roles_permissions">
+            <column name="role_id" value="1"/>
+            <column name="permission_id" value="1"/>
+        </insert>
+        <insert tableName="roles_permissions">
+            <column name="role_id" value="1"/>
+            <column name="permission_id" value="2"/>
+        </insert>
+        <insert tableName="roles_permissions">
+            <column name="role_id" value="1"/>
+            <column name="permission_id" value="3"/>
+        </insert>
+        <insert tableName="roles_permissions">
+            <column name="role_id" value="1"/>
+            <column name="permission_id" value="4"/>
+        </insert>
+        <insert tableName="roles_permissions">
+            <column name="role_id" value="2"/>
+            <column name="permission_id" value="1"/>
+        </insert>
+        <insert tableName="usr">
+            <column name="email" value="admin@localhost.xyz"/>
+            <column name="first_name" value="Admin"/>
+            <column name="role_id" value="1"/>
+            <column name="password" value="$2a$11$3uTqgLCidbt2Zegnp95wdeP.YiTnwAx5.Rk2kFgbfZIPKlZtxK3Ha"/>
+        </insert>
+        <insert tableName="usr">
+            <column name="email" value="john.doe@localhost.xyz"/>
+            <column name="first_name" value="John"/>
+            <column name="last_name" value="Doe"/>
+            <column name="role_id" value="2"/>
+            <column name="password" value="$2a$11$3uTqgLCidbt2Zegnp95wdeP.YiTnwAx5.Rk2kFgbfZIPKlZtxK3Ha"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
